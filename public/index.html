@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>비플페이 식당 지도</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="highlight">
+  <header class="topbar">
+    <form id="search-form" class="search">
+      <input id="region-input" type="text" placeholder="예: 역삼동, 강남역, 역삼동 쌀국수집 찾아줘" autocomplete="off" required>
+      <button type="submit">검색</button>
+    </form>
+    <button id="highlight-toggle" class="toggle" type="button" aria-pressed="true">
+      <span class="dot"></span> 비플페이 가능 식당 형광 표시
+    </button>
+  </header>
+
+  <div id="status-bar" class="status-bar" hidden></div>
+  <ul id="region-choices" class="region-choices" hidden></ul>
+
+  <main id="map"></main>
+
+  <aside id="panel" class="panel" hidden>
+    <button id="panel-close" class="panel-close" type="button" aria-label="닫기">×</button>
+    <h2 id="p-name"></h2>
+    <p id="p-category" class="muted"></p>
+    <p id="p-address"></p>
+    <p id="p-phone" class="muted"></p>
+    <a id="p-link" target="_blank" rel="noopener">영업시간·상세정보 보기 (카카오맵) →</a>
+
+    <div class="vote">
+      <p class="vote-title">이 식당에서 비플페이를 쓸 수 있나요?</p>
+      <div class="vote-buttons">
+        <button id="vote-yes" class="vote-btn yes" type="button">비플페이 가능</button>
+        <button id="vote-no" class="vote-btn no" type="button">비플페이 불가능</button>
+      </div>
+      <p id="p-verdict" class="verdict"></p>
+      <p id="p-updated" class="muted"></p>
+    </div>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>

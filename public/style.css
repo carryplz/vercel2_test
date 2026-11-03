@@ -1,0 +1,167 @@
+:root {
+  --bg: #ffffff;
+  --fg: #1d1d1f;
+  --muted: #6b6b70;
+  --line: #e3e3e8;
+  --accent: #2f6df6;
+  --neon: #39ff14;
+  --no: #e5484d;
+  --unknown: #8e8e93;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  z-index: 10;
+}
+.search { display: flex; gap: 6px; flex: 1 1 280px; }
+.search input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 15px;
+}
+button { font: inherit; cursor: pointer; }
+.search button {
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  font-weight: 600;
+}
+.toggle .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--unknown); }
+.toggle[aria-pressed="true"] { background: #0e1a0b; color: var(--neon); border-color: var(--neon); }
+.toggle[aria-pressed="true"] .dot { background: var(--neon); box-shadow: 0 0 8px var(--neon); }
+
+.status-bar {
+  padding: 8px 16px;
+  font-size: 14px;
+  background: #f4f6fb;
+  border-bottom: 1px solid var(--line);
+}
+.status-bar.error { background: #fdecec; color: #a4161a; }
+
+.region-choices {
+  list-style: none;
+  margin: 0;
+  padding: 6px 16px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.region-choices button {
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+}
+
+#map { flex: 1; min-height: 0; }
+
+/* 지도 위 식당 마커 */
+.pin {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: var(--unknown);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+  cursor: pointer;
+  transition: opacity .2s, transform .2s;
+}
+.pin:hover, .pin.selected { transform: scale(1.4); }
+.pin.yes { background: var(--accent); }
+.pin.no { background: var(--no); }
+
+/* 형광 모드: 가능 식당만 빛나고 나머지는 흐리게 */
+body.highlight .pin { opacity: .25; }
+body.highlight .pin.yes {
+  opacity: 1;
+  width: 20px;
+  height: 20px;
+  background: var(--neon);
+  border-color: #fff;
+  animation: blink-border 1s steps(1, end) infinite;
+}
+/* 형광 테두리가 켜졌다 꺼졌다 깜빡인다 */
+@keyframes blink-border {
+  0% { box-shadow: 0 0 0 4px var(--neon), 0 0 14px 6px var(--neon); }
+  50% { box-shadow: 0 0 0 4px transparent, 0 0 4px 1px rgba(57, 255, 20, .4); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.highlight .pin.yes { animation: none; box-shadow: 0 0 0 4px var(--neon), 0 0 14px 6px var(--neon); }
+}
+
+.panel {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: min(360px, calc(100% - 32px));
+  max-height: 70vh;
+  overflow: auto;
+  padding: 18px;
+  background: var(--bg);
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .2);
+  z-index: 20;
+}
+.panel h2 { margin: 0 28px 4px 0; font-size: 19px; }
+.panel p { margin: 4px 0; font-size: 14px; }
+.panel a { font-size: 14px; color: var(--accent); }
+.panel-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: 0;
+  background: none;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--muted);
+}
+.muted { color: var(--muted); }
+
+.vote { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.vote-title { font-weight: 600; }
+.vote-buttons { display: flex; gap: 8px; margin-top: 8px; }
+.vote-btn {
+  flex: 1;
+  padding: 10px 8px;
+  border-radius: 8px;
+  border: 2px solid var(--line);
+  background: #fff;
+  font-weight: 600;
+}
+
+.vote-btn.yes.mine { border-color: var(--accent); background: #eaf0ff; }
+.vote-btn.no.mine { border-color: var(--no); background: #fdecec; }
+.vote-btn:disabled { opacity: .6; cursor: wait; }
+.verdict { margin-top: 8px !important; font-weight: 600; }

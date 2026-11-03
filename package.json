@@ -1,0 +1,11 @@
+{
+  "name": "biple-map",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs"
+  },
+  "dependencies": {
+    "postgres": "^4.0.0"
+  }
+}
